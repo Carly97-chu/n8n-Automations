@@ -1,0 +1,1599 @@
+{
+  "name": "ESERCIZIO 5  corretto",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        864,
+        224
+      ],
+      "id": "3cbcf44a-0b40-43e7-97e7-8cb540bfd8d6",
+      "name": "When clicking ‘Execute workflow’",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "Il webhook viene attivato aprendo il link, che sara' poi la pagina web creata con il respond to webhook\n",
+        "height": 112,
+        "width": 208
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        816,
+        1792
+      ],
+      "typeVersion": 1,
+      "id": "b0ebc775-8d79-4c01-a8c9-59c4f4d36599",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "genera html per creare la pagina web riassuntiva",
+        "height": 80,
+        "width": 160
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2352,
+        1552
+      ],
+      "typeVersion": 1,
+      "id": "691a2e94-49e4-437d-b08e-d5d8a3d8a057",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "l'agente ai crea un report confrontando la qualita' delle risposte con l documentazione originale\n",
+        "height": 96,
+        "width": 208
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1776,
+        1936
+      ],
+      "typeVersion": 1,
+      "id": "d7bff631-6ad8-4fc1-b265-5c9360e4eb37",
+      "name": "Sticky Note5",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "genera il report in un google doc che viene mandato via mail.\n",
+        "height": 80,
+        "width": 224
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2256,
+        2240
+      ],
+      "typeVersion": 1,
+      "id": "950b1b1f-bfec-4e56-9887-9afe97f9283a",
+      "name": "Sticky Note7",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        784,
+        864
+      ],
+      "id": "ba4aad0e-35b1-437f-936d-e412b3393e4f",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "aXDnzd86TDk3Bn7e",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        960,
+        928
+      ],
+      "id": "cac649c6-8b15-4944-9772-cc9ac9ef0b79",
+      "name": "Simple Memory1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "You are a helpful assistant specialized in the isd model. You have the knowledge to answer directly from the user manual. When answering, remind the user your knowledge is limited only to the information you were provided. ",
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        1136,
+        928
+      ],
+      "id": "3d528932-ed65-47bf-8b74-ee28f4a94048",
+      "name": "Supabase Vector Store2",
+      "credentials": {
+        "supabaseApi": {
+          "id": "hTbc30HqnpSqRe8Y",
+          "name": "Supabase account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1136,
+        1104
+      ],
+      "id": "9bbf2b82-97b4-4769-af93-316e3ed0b08a",
+      "name": "Embeddings Google Gemini2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "aXDnzd86TDk3Bn7e",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "base": {
+          "__rl": true,
+          "value": "appmZnK7cqJies4H4",
+          "mode": "list",
+          "cachedResultName": "Ex 5",
+          "cachedResultUrl": "https://airtable.com/appmZnK7cqJies4H4"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbln9ta75EIbdPkFk",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/appmZnK7cqJies4H4/tbln9ta75EIbdPkFk"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Risposta": "={{ $json.output }}",
+            "Domanda": "={{ $json.chatInput }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Domanda",
+              "displayName": "Domanda",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Risposta",
+              "displayName": "Risposta",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1584,
+        656
+      ],
+      "id": "f2921ec9-6898-43a4-83c0-7e1480f68843",
+      "name": "Create or update a record1",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "fBfc6poc34VDPywG",
+          "name": "Airtable Personal Access Token account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "description": "=Il bot non è riuscito a rispondere a questa domanda:  {{ $json.chatInput }}",
+        "jsonParameters": "={\n  \"subject\": \"Mi dispiace, ma non posso aiutarti\",\n  \"description\": \"Il chatbot non è riuscito a rispondere alla seguente domanda: '{{ $json.chatInput }}'\"\n}\n",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.zendeskTool",
+      "typeVersion": 1,
+      "position": [
+        1472,
+        896
+      ],
+      "id": "10ae7cda-4b43-4dff-bb28-c94a09518214",
+      "name": "Create a ticket in Zendesk",
+      "credentials": {
+        "zendeskApi": {
+          "id": "eE3Aye6hdXtrs1Av",
+          "name": "Zendesk account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        800,
+        656
+      ],
+      "id": "526b1ca7-591c-4146-8372-0f2a0b5fa0c6",
+      "name": "When chat message received",
+      "webhookId": "2c6db3c2-1f38-433f-a55c-e47007aadb0f",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        1424,
+        384
+      ],
+      "id": "1f88663a-4568-46b7-8ffc-d739c5973ccd",
+      "name": "Default Data Loader",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1424,
+        656
+      ],
+      "id": "44b5df34-68ba-4581-a28f-9e758a3f625c",
+      "name": "Merge",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Se non trovi una risposta adeguata o pertinente nel database delle conoscenze interne, crea automaticamente un ticket su Zendesk utilizzando il tool integrato.\n\nNon chiedere conferma all’utente prima di creare il ticket."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        1072,
+        656
+      ],
+      "id": "0a631902-36c8-4fa7-aa47-0798403198b0",
+      "name": "AI Agent2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        1248,
+        224
+      ],
+      "id": "ab478e47-c2fb-4558-8d09-a5592e1ffc14",
+      "name": "Supabase Vector Store1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "hTbc30HqnpSqRe8Y",
+          "name": "Supabase account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1232,
+        384
+      ],
+      "id": "d190e7be-a661-4220-8b3c-50ca5ca228db",
+      "name": "Embeddings Google Gemini1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "aXDnzd86TDk3Bn7e",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1xLmQrNCTpgDjan8Z0zQu2S41-XRo3Sjn",
+          "mode": "list",
+          "cachedResultName": "iSD Model Documentation June 2025.pdf",
+          "cachedResultUrl": "https://drive.google.com/file/d/1xLmQrNCTpgDjan8Z0zQu2S41-XRo3Sjn/view?usp=drivesdk"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1072,
+        224
+      ],
+      "id": "761da848-67af-4ac0-b4dc-545bdc4ea220",
+      "name": "Download file1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "EaNPidhAHoIg1Yij",
+          "name": "Google Drive account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "Crea database vettoriale facendo l'embedding",
+        "height": 384,
+        "width": 1046,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        656,
+        160
+      ],
+      "typeVersion": 1,
+      "id": "348f54d2-2ae3-4cdc-b7d2-ad3b159e5877",
+      "name": "Sticky Note9",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "Chatbot che fornisce risposte al documento caricato sul database",
+        "height": 704,
+        "width": 1056,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        656,
+        560
+      ],
+      "typeVersion": 1,
+      "id": "7685d98f-23ed-4831-acc3-d4670b652eed",
+      "name": "Sticky Note10"
+    },
+    {
+      "parameters": {
+        "content": "## Esercizio:\nCrea tramite n8n, un chatbot che sia in grado di rispondere alle domande fatte da un utente su uno specifico argomento a tua scelta (e.g.: il PDF del manuale di un elettrodomestico). Le risposte vengono fornite salvate in una tabella di AirTable. Gestisci anche il caso in cui il bot non sia in grado di rispondere. Se il bot non è stato in grado di rispondere, viene aperto un ticket su Zendesk con la richiesta della persona. \n\n",
+        "height": 336
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        480,
+        192
+      ],
+      "typeVersion": 1,
+      "id": "bdd0c45a-0f13-4769-9e67-adf3b7d86a7e",
+      "name": "Sticky Note11",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "Chatbot che fornisce risposte al documento caricato sul database e le salva  su un database vettoriale supabase\n",
+        "height": 752,
+        "width": 1456,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1744,
+        512
+      ],
+      "typeVersion": 1,
+      "id": "7201b9e0-a644-401c-a184-c5aaa460a51b",
+      "name": "Sticky Note12",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## Extra extra mile:  \nProva a realizzare la struttura dati per salvare le risposte e la data di inserimento all’interno di una nuova tabella di supabase. Sistema i flussi per interagire direttamente con supabase usando i nodi PostgreSQL. Aiutati con l’AI!\n",
+        "height": 192,
+        "width": 272
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2992,
+        448
+      ],
+      "typeVersion": 1,
+      "id": "4c33299b-ec12-463d-8cfd-f01d9848d2e6",
+      "name": "Sticky Note13",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "come non è possibile mettere due chat trigger nello stesso workflow bisogna immaginare che il chat trigger dell'esercizio base puo' essere collegato al nodo postgres dell'extra extra mile e poi fare il merge con il chat trigger"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1936,
+        592
+      ],
+      "typeVersion": 1,
+      "id": "597b939d-aaf8-4a14-a552-9e30f5a7fdcf",
+      "name": "Sticky Note14",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO \"extra extra mile 5\" (answer)\nVALUES ('{{ $json.output }}');",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        2736,
+        608
+      ],
+      "id": "08bafd0b-8bbf-4508-a066-dcbaea259eb4",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "postgres": {
+          "id": "kgAH4y3NxvU1i07t",
+          "name": "Postgres account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        2288,
+        864
+      ],
+      "id": "cb2e5972-16b4-471e-9ab6-1db4360143b8",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "kgAH4y3NxvU1i07t",
+          "name": "Postgres account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Se non trovi una risposta adeguata o pertinente nel database delle conoscenze interne, crea automaticamente un ticket su Zendesk utilizzando il tool integrato.\n\nNon chiedere conferma all’utente prima di creare il ticket."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        2384,
+        608
+      ],
+      "id": "177ced9d-97a7-4b0e-a50a-aedf288e8af9",
+      "name": "AI Agent3",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        2096,
+        816
+      ],
+      "id": "5da74898-2d0b-4e76-a3c1-24fc2c78a26b",
+      "name": "Google Gemini Chat Model3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "aXDnzd86TDk3Bn7e",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "You are a helpful assistant specialized in the isd model. You have the knowledge to answer directly from the user manula. When answering, remind the user your knowledge is limited only to the information you were provided. ",
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        2448,
+        880
+      ],
+      "id": "3af96ac3-2aa2-4461-9c42-91aa9d83a01d",
+      "name": "Supabase Vector Store3",
+      "credentials": {
+        "supabaseApi": {
+          "id": "hTbc30HqnpSqRe8Y",
+          "name": "Supabase account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        2448,
+        1056
+      ],
+      "id": "d569da7e-169f-4a68-9ced-3e992b3c0699",
+      "name": "Embeddings Google Gemini3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "aXDnzd86TDk3Bn7e",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "description": "=Il bot non è riuscito a rispondere a questa domanda:  {{ $json.chatInput }}",
+        "jsonParameters": "={\n  \"subject\": \"Mi dispiace, ma non posso aiutarti\",\n  \"description\": \"Il chatbot non è riuscito a rispondere alla seguente domanda: '{{ $json.chatInput }}'\"\n}\n",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.zendeskTool",
+      "typeVersion": 1,
+      "position": [
+        2784,
+        848
+      ],
+      "id": "7859fd29-adf3-4002-bdb0-d5069e6cc47d",
+      "name": "Create a ticket in Zendesk1",
+      "credentials": {
+        "zendeskApi": {
+          "id": "eE3Aye6hdXtrs1Av",
+          "name": "Zendesk account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "AGISCI COME:\nUn convertitore professionale che trasforma contenuti strutturati in un documento HTML completo e valido.\n\nINPUT:\nRiceverai un oggetto strutturato nel formato seguente (derivante dall’analisi del Prompt 1):\n\n{\n  \"temi_principali\": [\n    { \"tema\": \"...\", \"frequenza\": ..., \"descrizione\": \"...\" }\n  ],\n  \"sintesi_risposte\": {\n    \"tema1\": \"...\",\n    \"tema2\": \"...\"\n  },\n  \"dati_grafico\": {\n    \"chart_type\": \"bar\",\n    \"title\": \"Numero di risposte per giorno della settimana\",\n    \"data\": {\n      \"Lun\": ...,\n      \"Mar\": ...\n    }\n  }\n}\n\n\nOBIETTIVO:\nGenera un unico documento HTML completo, contenente:\n\n1. Sezione “Temi principali”\n\nTabella o lista HTML con\n\ntema\n\nfrequenza\n\ndescrizione\n\n2. Sezione “Sintesi delle risposte”\n\nPer ogni tema, una sottosezione HTML (<section> / <div>) con titolo e testo.\n\n3. Sezione “Analisi grafica”\n\nUn <script type=\"application/json\" id=\"chart-data\"> che contiene dati_grafico.\n\nUn <div id=\"chart\"> come placeholder del grafico.\n\n(Opzionale) una breve descrizione del grafico consigliato.\n\n4. Struttura HTML obbligatoria\n\n<!doctype html>\n\n<html>, <head>, <body>\n\n<title> e <h1>\n\nOUTPUT:\nRestituisci direttamente il file HTML completo, senza commenti esterni.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        2032,
+        1584
+      ],
+      "id": "47dedfb2-354d-4268-9ee4-8a4b13ef5c46",
+      "name": "codice html"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=AGISCI COME:\nUn analista di dati conversazionali esperto in sintesi tematiche e analisi statistica.\n\nCOMPITO:\nRiceverai un elenco di record contenenti:\n\nData della risposta (se disponibile) — {{ $json.data.map(d => d.createdTime).join('\\n') }}\n\n\nDomanda — {{ $json.data.map(d => d.Domanda).join('\\n') }}\n\n\nRisposta dell’utente — {{ $json.data.map(d => d.Risposta).join('\\n') }}\n\n\nOBIETTIVO:\nAnalizza i dati e produci un output strutturato NON in HTML, contenente:\n\n1. Temi più richiesti\n\nIdentifica i principali temi ricorrenti nelle domande e risposte.\n\nPer ciascun tema, fornisci:\n\nnome del tema\n\nfrequenza (numero di menzioni o percentuale)\n\nbreve descrizione\n\n2. Sintesi delle risposte per tema\n\nDescrivi le principali opinioni, trend, pattern ricorrenti.\n\nEvidenzia somiglianze, differenze e tendenze significative.\n\n3. Analisi grafica dei dati temporali\n\nProduce dati aggregati per numero di risposte per giorno della settimana.\n\nFormato richiesto:\n\n{\n  \"Lun\": X,\n  \"Mar\": Y,\n  \"Mer\": Z,\n  ...\n}\n\n\nOUTPUT FINALE ATTESO (NON HTML, solo dati):\n\n{\n  \"temi_principali\": [\n    { \"tema\": \"...\", \"frequenza\": ..., \"descrizione\": \"...\" }\n  ],\n  \"sintesi_risposte\": {\n    \"tema1\": \"testo di sintesi...\",\n    \"tema2\": \"testo di sintesi...\"\n  },\n  \"dati_grafico\": {\n    \"chart_type\": \"bar\",\n    \"title\": \"Numero di risposte per giorno della settimana\",\n    \"data\": {\n      \"Lun\": ...,\n      \"Mar\": ...,\n      \"Mer\": ...\n    }\n  }\n}\n",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        1536,
+        1584
+      ],
+      "id": "804e9596-a31d-45c3-9bc3-bba2138aac20",
+      "name": "Report"
+    },
+    {
+      "parameters": {
+        "content": "## Extra mile:\nCrea un flusso n8n che partendo da un webhook, risponde con una pagina HTML che contiene una lista dei temi più richiesti, le risposte raccolte ed anche un grafico a tuo piacimento (come ad esempio un grafico con numero di risposte per giorno della settimana). Usa l’AI per aiutarti a realizzare l’HTML! Realizza un ulteriore flusso che partendo dalle risposte registrate, scova le criticità e ne crea un report in Google Docs. Il report viene inviato tramite mail.\n",
+        "height": 288,
+        "width": 336
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        912,
+        1280
+      ],
+      "typeVersion": 1,
+      "id": "3cf88960-b9f8-4dd0-906c-1b000648563d",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "path": "44e2f2a6-176e-41ac-a298-60e7b83a50eb",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        976,
+        1664
+      ],
+      "id": "c5eeda2d-3f92-42f1-9696-ee8259715924",
+      "name": "Webhook1",
+      "webhookId": "44e2f2a6-176e-41ac-a298-60e7b83a50eb"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appmZnK7cqJies4H4",
+          "mode": "list",
+          "cachedResultName": "Ex 5",
+          "cachedResultUrl": "https://airtable.com/appmZnK7cqJies4H4"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbln9ta75EIbdPkFk",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/appmZnK7cqJies4H4/tbln9ta75EIbdPkFk"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1136,
+        1664
+      ],
+      "id": "95699e83-da32-4ad2-a0cf-fcf2fb8ffba6",
+      "name": "Search records2",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "fBfc6poc34VDPywG",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.html }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/html"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        2560,
+        1664
+      ],
+      "id": "2d4353e7-8612-408f-9662-08bc06f32ee0",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "html": "{{ $json.output }}"
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        2368,
+        1664
+      ],
+      "id": "27cb6eaf-9bd7-48d2-ae89-764d62a9d849",
+      "name": "HTML1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1456,
+        1792
+      ],
+      "id": "9de27397-2bb2-4dab-9f69-33a1361abe58",
+      "name": "Google Gemini Chat Model6",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "aXDnzd86TDk3Bn7e",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appmZnK7cqJies4H4",
+          "mode": "list",
+          "cachedResultName": "Ex 5",
+          "cachedResultUrl": "https://airtable.com/appmZnK7cqJies4H4"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbln9ta75EIbdPkFk",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/appmZnK7cqJies4H4/tbln9ta75EIbdPkFk"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1248,
+        2048
+      ],
+      "id": "20226be0-c092-4897-90e8-88bb483889a7",
+      "name": "Search records3",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "fBfc6poc34VDPywG",
+          "name": "Airtable Personal Access Token account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "sendTo": "emiro.miro@hotmail.it",
+        "subject": "report",
+        "message": "=report creato",
+        "options": {
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {}
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        2640,
+        2048
+      ],
+      "id": "c3816e0e-f288-43d7-9f24-6cfc12b99cfc",
+      "name": "Send a message1",
+      "webhookId": "bea6d71a-3d09-4721-b988-b69434a626e7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "LwAu3iMuH79zp8Ls",
+          "name": "Gmail account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1cXeDw5A46vrPgwSvFak4efBFdh1HyCmzd9hdho34-Dk",
+          "mode": "list",
+          "cachedResultName": "REPORT",
+          "cachedResultUrl": "https://docs.google.com/document/d/1cXeDw5A46vrPgwSvFak4efBFdh1HyCmzd9hdho34-Dk/edit?usp=drivesdk"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2416,
+        2048
+      ],
+      "id": "69d6986c-17d8-4bf7-9770-cf5720eb5c37",
+      "name": "Download file2",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "EaNPidhAHoIg1Yij",
+          "name": "Google Drive account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "createFromText",
+        "content": "={{ $json.output.join('\\n\\n') }}",
+        "name": "REPORT",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1ZVwoy7duvAp4OnTR366aND9bhsvg-ugV",
+          "mode": "list",
+          "cachedResultName": "N8N",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1ZVwoy7duvAp4OnTR366aND9bhsvg-ugV"
+        },
+        "options": {
+          "convertToGoogleDocument": true
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2192,
+        2048
+      ],
+      "id": "071ca537-6da2-43da-a283-dabfe7b81f52",
+      "name": "Create file from text1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "EaNPidhAHoIg1Yij",
+          "name": "Google Drive account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Sei un AI Critico incaricato di valutare la qualità, l’accuratezza e le potenziali criticità di una risposta generata da un modello AI a una domanda umana, considerando anche eventuali errori logici, bias, incompletezza o ambiguità.\n\nInput\n-domanda{{ $json.data.map(d => d.Domanda).join('\\n') }}\n-risposta{{ $json.data.map(d => d.Risposta).join('\\n') }}\n\n- Documentazione di supporto : \nla trovi all'interno del tool supabase vector\nIstruzioni:\n1. Identifica eventuali:\n   a. Errori fattuali o informazioni imprecise.\n   b. Contraddizioni logiche o incoerenze interne.\n   c. Ambiguità, vaghezza o mancanza di chiarezza.\n   d. Bias culturali, di genere o cognitivi.\n",
+        "options": {
+          "systemMessage": "Nel Tool supabase vector trovi la documentazione da utilizzare per valutare la bonta' delle risposte.",
+          "batching": {
+            "batchSize": 1
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        1728,
+        2048
+      ],
+      "id": "76d73b30-f40b-4089-a3c5-60c05ca7d79c",
+      "name": "AI Agent5",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1696,
+        2272
+      ],
+      "id": "ff55af28-1248-4749-94a8-8279b6b50e77",
+      "name": "Google Gemini Chat Model7",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "aXDnzd86TDk3Bn7e",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "You are a helpful assistant specialized in the isd model. You have the knowledge to answer directly from the user manual. When answering, remind the user your knowledge is limited only to the information you were provided. ",
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        1808,
+        2272
+      ],
+      "id": "5676e481-f947-48fb-a041-97d715ac3eb4",
+      "name": "Supabase Vector Store4",
+      "credentials": {
+        "supabaseApi": {
+          "id": "hTbc30HqnpSqRe8Y",
+          "name": "Supabase account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1824,
+        2448
+      ],
+      "id": "c26abdcf-fffa-4c96-afc6-68869d3e30e6",
+      "name": "Embeddings Google Gemini4",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "aXDnzd86TDk3Bn7e",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "prendo le domande e le risposte\n",
+        "height": 96,
+        "width": 160
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1088,
+        1824
+      ],
+      "typeVersion": 1,
+      "id": "14331723-f71c-4a82-88dd-819b7f060164",
+      "name": "Sticky Note15",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        1024,
+        2048
+      ],
+      "id": "cbc4350e-c960-41d8-af08-cf05b9dec250",
+      "name": "Schedule Trigger1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1472,
+        2048
+      ],
+      "id": "526db676-cfb9-418c-84f6-7b55b45e8990",
+      "name": "Aggregate2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 1232,
+        "width": 1920,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        880,
+        1360
+      ],
+      "typeVersion": 1,
+      "id": "24db2337-5793-43d0-8c0c-eb09533da3f3",
+      "name": "Sticky Note16"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "648d10c6-884c-4d9a-addf-d8cc2dde5729",
+              "name": "output",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1856,
+        1584
+      ],
+      "id": "9517175f-b119-44b6-b35e-8dc628eb276b",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        2048,
+        1744
+      ],
+      "id": "f6ceed18-5dfc-479f-b0af-3f1915de958f",
+      "name": "Google Gemini Chat Model8",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "aXDnzd86TDk3Bn7e",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1280,
+        1664
+      ],
+      "id": "423ae74e-a202-4abe-9e9b-2b376ecfae43",
+      "name": "Aggregate3"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"temi_principali\": [\n    { \"tema\": \"Funzionalità del prodotto\", \"frequenza\": 15, \"descrizione\": \"Domande relative alle caratteristiche tecniche\" },\n    { \"tema\": \"Problemi tecnici\", \"frequenza\": 8, \"descrizione\": \"Segnalazioni di malfunzionamenti\" }\n  ],\n  \"sintesi_risposte\": {\n    \"Funzionalità del prodotto\": \"Gli utenti mostrano interesse per le capacità avanzate del sistema\",\n    \"Problemi tecnici\": \"Emergono alcune criticità ricorrenti nella configurazione iniziale\"\n  },\n  \"dati_grafico\": {\n    \"chart_type\": \"bar\",\n    \"title\": \"Numero di risposte per giorno della settimana\",\n    \"data\": {\n      \"Lun\": 5,\n      \"Mar\": 8,\n      \"Mer\": 12,\n      \"Gio\": 7,\n      \"Ven\": 10,\n      \"Sab\": 3,\n      \"Dom\": 2\n    }\n  }\n}",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1600,
+        1760
+      ],
+      "id": "4737cc2f-6c76-4766-bd39-6d35c8be2ebd",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1600,
+        1920
+      ],
+      "id": "0245462e-6899-455e-89a2-98d2aa5e1232",
+      "name": "Google Gemini Chat Model9",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "aXDnzd86TDk3Bn7e",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "codice html": [
+      {
+        "json": {
+          "output": "```html\n<!doctype html>\n<html lang=\"it\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Report Analisi Contenuti</title>\n    <style>\n        body {\n            font-family: Arial, sans-serif;\n            line-height: 1.6;\n            margin: 0;\n            padding: 20px;\n            background-color: #f4f4f4;\n            color: #333;\n        }\n        .container {\n            max-width: 960px;\n            margin: 20px auto;\n            background: #fff;\n            padding: 30px;\n            border-radius: 8px;\n            box-shadow: 0 0 10px rgba(0,0,0,0.1);\n        }\n        h1 {\n            color: #2c3e50;\n            text-align: center;\n            margin-bottom: 30px;\n        }\n        h2 {\n            color: #34495e;\n            border-bottom: 2px solid #eee;\n            padding-bottom: 10px;\n            margin-top: 40px;\n            margin-bottom: 20px;\n        }\n        h3 {\n            color: #2980b9;\n            margin-top: 25px;\n        }\n        table {\n            width: 100%;\n            border-collapse: collapse;\n            margin-bottom: 20px;\n        }\n        th, td {\n            border: 1px solid #ddd;\n            padding: 12px;\n            text-align: left;\n        }\n        th {\n            background-color: #ecf0f1;\n            font-weight: bold;\n        }\n        tr:nth-child(even) {\n            background-color: #f9f9f9;\n        }\n        .summary-section {\n            background-color: #ecf0f1;\n            padding: 15px;\n            border-radius: 5px;\n            margin-bottom: 15px;\n        }\n        .chart-description {\n            font-style: italic;\n            color: #7f8c8d;\n            margin-top: 15px;\n        }\n        #chart {\n            width: 100%;\n            height: 400px; /* Placeholder height for potential chart */\n            background-color: #f0f0f0;\n            border: 1px solid #ddd;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            color: #666;\n            font-size: 1.2em;\n            margin-top: 20px;\n            border-radius: 5px;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1>Report Analisi Contenuti</h1>\n\n        <section id=\"temi-principali-section\">\n            <h2>Temi principali</h2>\n            <table>\n                <thead>\n                    <tr>\n                        <th>Tema</th>\n                        <th>Frequenza</th>\n                        <th>Descrizione</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr>\n                        <td>Soddisfazione Utente</td>\n                        <td>15</td>\n                        <td>Discussioni relative al grado di soddisfazione degli utenti con il servizio.</td>\n                    </tr>\n                    <tr>\n                        <td>Funzionalità Richieste</td>\n                        <td>10</td>\n                        <td>Richieste per nuove funzionalità o miglioramenti a quelle esistenti.</td>\n                    </tr>\n                    <tr>\n                        <td>Problemi Tecnici</td>\n                        <td>7</td>\n                        <td>Segnalazioni e discussioni su bug o malfunzionamenti tecnici.</td>\n                    </tr>\n                </tbody>\n            </table>\n        </section>\n\n        <section id=\"sintesi-risposte-section\">\n            <h2>Sintesi delle risposte</h2>\n            <div class=\"summary-section\">\n                <h3>Sintesi per: Soddisfazione Utente</h3>\n                <p>Gli utenti esprimono un buon livello di soddisfazione generale, con alcune aree di miglioramento specifiche riguardanti l'usabilità dell'interfaccia mobile.</p>\n            </div>\n            <div class=\"summary-section\">\n                <h3>Sintesi per: Funzionalità Richieste</h3>\n                <p>Le richieste più frequenti riguardano l'integrazione con strumenti esterni e la possibilità di personalizzare ulteriormente i report.</p>\n            </div>\n            <div class=\"summary-section\">\n                <h3>Sintesi per: Problemi Tecnici</h3>\n                <p>Sono stati riscontrati alcuni problemi minori di caricamento delle immagini su browser meno recenti, ma la maggior parte dei bug critici è stata risolta nell'ultima release.</p>\n            </div>\n        </section>\n\n        <section id=\"analisi-grafica-section\">\n            <h2>Analisi grafica</h2>\n            <script type=\"application/json\" id=\"chart-data\">\n                {\n                  \"chart_type\": \"bar\",\n                  \"title\": \"Numero di risposte per giorno della settimana\",\n                  \"data\": {\n                    \"Lun\": 25,\n                    \"Mar\": 30,\n                    \"Mer\": 20,\n                    \"Gio\": 35,\n                    \"Ven\": 28,\n                    \"Sab\": 10,\n                    \"Dom\": 5\n                  }\n                }\n            </script>\n            <div id=\"chart\">\n                Qui verrà renderizzato il grafico. Potresti usare librerie come Chart.js o D3.js per visualizzare i dati forniti.\n            </div>\n            <p class=\"chart-description\">I dati sopra forniti, con `chart_type: \"bar\"`, suggeriscono un grafico a barre ideale per visualizzare il numero di risposte per ogni giorno della settimana, come \"Numero di risposte per giorno della settimana\".</p>\n        </section>\n    </div>\n</body>\n</html>\n```"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Download file1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase Vector Store2": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Google Gemini2": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store2",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a ticket in Zendesk": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Supabase Vector Store1",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Create or update a record1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent2": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Google Gemini1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file1": {
+      "main": [
+        [
+          {
+            "node": "Supabase Vector Store1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent3",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent3": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent3",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase Vector Store3": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent3",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Google Gemini3": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store3",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a ticket in Zendesk1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent3",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "codice html": {
+      "main": [
+        [
+          {
+            "node": "HTML1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Report": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Search records2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search records2": {
+      "main": [
+        [
+          {
+            "node": "Aggregate3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model6": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Report",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search records3": {
+      "main": [
+        [
+          {
+            "node": "Aggregate2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file2": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create file from text1": {
+      "main": [
+        [
+          {
+            "node": "Download file2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent5": {
+      "main": [
+        [
+          {
+            "node": "Create file from text1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model7": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent5",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase Vector Store4": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent5",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Google Gemini4": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store4",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Search records3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate2": {
+      "main": [
+        [
+          {
+            "node": "AI Agent5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "codice html",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model8": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "codice html",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate3": {
+      "main": [
+        [
+          {
+            "node": "Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Report",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model9": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "versionId": "0f390c61-98e4-4863-843e-7022b458c04f",
+  "meta": {
+    "instanceId": "e55d5420ec7d910455edbc193f03d108b9e57d04fbe008e6bf71c3202b5e5e72"
+  },
+  "id": "JVXHHISGWFGYGNa4",
+  "tags": []
+}
