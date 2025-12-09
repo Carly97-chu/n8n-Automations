@@ -1,0 +1,837 @@
+{
+  "name": "Content creation for SEO & Marketing",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "Esercizio:\nCrea un flusso in n8n, che, legga giornalmente da un foglio Google Sheet una serie di argomenti, per ciascuno di questi argomenti, crea dei contenuti con finalità di marketing (come se fosse un blog - o dei contenuti SEO) crea e pubblica una pagina Notion per ogni argomento.",
+        "height": 224,
+        "width": 288
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "32a3d057-d53b-4d66-b141-750b9d457f32",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Sei un esperto SEO e copywriter specializzato in marketing digitale. Il tuo compito è creare contenuti accattivanti e coinvolgenti per un sito di educazione ambientale.\n\nLeggi attentamente i dati forniti in: {{ $json['Tema ambientale'] }} e utilizzali come base per costruire uno storytelling chiaro e coerente.\n\nIl contenuto deve essere:\n\nInformativo: trasmettere conoscenze concrete e utili sull’ambiente.\n\nCoinvolgente: catturare l’attenzione del lettore con uno stile narrativo fluido.\n\nOrientato al marketing: includere inviti all’azione sottili (es. iscriversi alla newsletter, partecipare a iniziative, condividere i contenuti).\n\nLinee guida di scrittura:\n\nMassimo 1500 caratteri.\n\nStrutturato e scorrevole, evitando ripetizioni inutili.\n\nNon inserire la frase introduttiva: \"Certamente! Ecco una bozza di articolo strutturato, accattivante e orientato al marketing, pensato per un pubblico universitario e ottimizzato per la condivisione social.\"",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        784,
+        384
+      ],
+      "id": "fb7d1b7f-7ce3-4faf-8366-5cf1e8b20a27",
+      "name": "AI Agent1",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        624,
+        624
+      ],
+      "id": "b3c58a88-d627-4b71-ab75-40f2e10a4ec6",
+      "name": "Google Gemini Chat Model1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        496,
+        368
+      ],
+      "id": "741027f0-4249-4f23-b21d-8328e2b5f596",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "pageId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "27e492f9045c808a9cc0f9ccccb492c2",
+          "__regex": "^([0-9a-f]{8}-?[0-9a-f]{4}-?[0-9a-f]{4}-?[0-9a-f]{4}-?[0-9a-f]{12})"
+        },
+        "title": "={{ $json.output.title }}",
+        "blockUi": {
+          "blockValues": [
+            {
+              "textContent": "={{ $json.output.text }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1136,
+        384
+      ],
+      "id": "d9b836ac-20bc-4e54-93c7-b927ed526e16",
+      "name": "Create a page"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1360,
+        384
+      ],
+      "id": "ea8ad177-99d2-4d35-9297-dcbb443a534a",
+      "name": "Wait",
+      "webhookId": "304fab0c-7d11-4adf-8b50-4dd8d15e2db4"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -16,
+        368
+      ],
+      "id": "7acdf9d5-adbf-4129-9035-c7ed99d2e849",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1Asn2e1HDZSDD0BmAZVPhEgotmPfXXkR6RELJ0wYEMqw",
+          "mode": "list",
+          "cachedResultName": "Esercizio 2 n8n |",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Asn2e1HDZSDD0BmAZVPhEgotmPfXXkR6RELJ0wYEMqw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Foglio1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Asn2e1HDZSDD0BmAZVPhEgotmPfXXkR6RELJ0wYEMqw/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        240,
+        368
+      ],
+      "id": "86426827-6911-4204-81fe-802b0420ca67",
+      "name": "Get row(s) in sheet1"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"title\": \"string (titolo breve, max 100 chars)\",\n  \"text\": \"string (contenuto principale, massimo 1500 caratteri, non superare)\"\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1088,
+        656
+      ],
+      "id": "82ba85f8-2eb7-43d1-b1af-f3f47a9a743e",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "content": "legge il foglio excel",
+        "height": 96,
+        "width": 150
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        208,
+        512
+      ],
+      "typeVersion": 1,
+      "id": "51100db7-80e5-49c9-bc92-bbb75d33bb6b",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "Il flusso viene attivato ogni 24 h\n",
+        "height": 112,
+        "width": 198,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -80,
+        496
+      ],
+      "typeVersion": 1,
+      "id": "045e79fe-a800-4621-9d96-94331943a5c1",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "prende un elemento per volta dal foglio excel\n",
+        "height": 112,
+        "width": 150
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        464,
+        240
+      ],
+      "typeVersion": 1,
+      "id": "e2c19ed1-825c-4fa8-9277-8ff8b31a8dab",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "l'ai crea contenuti seguendo una serie di linee guida",
+        "height": 96,
+        "width": 150
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        800,
+        256
+      ],
+      "typeVersion": 1,
+      "id": "6c5b4aa3-9c78-4b53-a8db-fb3bed32c50f",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "i contenuti creati dall'ai vengono pubblicati su notion",
+        "height": 96,
+        "width": 150
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1104,
+        272
+      ],
+      "typeVersion": 1,
+      "id": "382897b4-66ee-4696-9034-78cf8faf890b",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "per gestire meglio il limite di token viene inserito un nodo di pausa per far ripartire il loop",
+        "height": 144,
+        "width": 150
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1344,
+        224
+      ],
+      "typeVersion": 1,
+      "id": "ea096988-36aa-4eb9-a25b-4f15e3a2be9c",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1wPAMJt7bvU5SAoRof4BE-62S6KIKYK8itC51pngFJ40",
+          "mode": "list",
+          "cachedResultName": "Esercizio 2 extra mile",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wPAMJt7bvU5SAoRof4BE-62S6KIKYK8itC51pngFJ40/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Foglio1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wPAMJt7bvU5SAoRof4BE-62S6KIKYK8itC51pngFJ40/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1984,
+        192
+      ],
+      "id": "1c369fcb-3b53-4a98-9069-2b8ab8438e39",
+      "name": "Get row(s) in sheet"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Sei un giornalista specializzato in temi ambientali. Il tuo compito è creare contenuti originali, informativi e coinvolgenti su argomenti legati all’ambiente e alla sostenibilità che trovi in:\n{{ $json['Tema ambientale'] }}\nOgni contenuto deve adattarsi a un formato specifico (es. post Instagram, email, articolo breve, ecc.).\n\nMantieni uno stile giornalistico chiaro, accessibile e stimolante.\n\nUsa un tono informativo ma anche ispirazionale, capace di spingere all’azione o alla riflessione.\n\nOgni contenuto deve essere inferiore a 1000 caratteri.\n\nAlla fine di ogni contenuto, genera un elenco di 5–7 parole chiave pertinenti al testo prodotto. \n\n",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        2496,
+        368
+      ],
+      "id": "a7d684a1-e907-4f07-9b4f-a5d4c808f405",
+      "name": "AI Agent",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        2352,
+        528
+      ],
+      "id": "4dfb5035-eea8-423f-9867-8adec62be721",
+      "name": "Google Gemini Chat Model"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1wPAMJt7bvU5SAoRof4BE-62S6KIKYK8itC51pngFJ40",
+          "mode": "list",
+          "cachedResultName": "Esercizio 2 extra mile",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wPAMJt7bvU5SAoRof4BE-62S6KIKYK8itC51pngFJ40/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Foglio1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wPAMJt7bvU5SAoRof4BE-62S6KIKYK8itC51pngFJ40/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID": "={{ $('Get row(s) in sheet').item.json.ID }}",
+            "Contenuto creato": "=Si",
+            "Parole chiave": "={{ $('AI Agent').item.json.output.parole_chiave }}"
+          },
+          "matchingColumns": [
+            "ID"
+          ],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Tema ambientale",
+              "displayName": "Tema ambientale",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Contenuto creato",
+              "displayName": "Contenuto creato",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Parole chiave",
+              "displayName": "Parole chiave",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Tipologia di contenuto",
+              "displayName": "Tipologia di contenuto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        3184,
+        368
+      ],
+      "id": "a7b432b2-6361-4b59-8cfa-234f30b1303b",
+      "name": "Update row in sheet1"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        1776,
+        192
+      ],
+      "id": "9dae5841-2399-4017-bfbd-c0222e1faa06",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2208,
+        192
+      ],
+      "id": "2d2ab69f-9e93-4b7d-9cb5-f91b6f3a4d71",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"title\": \"string (titolo breve, max 100 chars)\",\n  \"text\": \"string (contenuto principale, massimo 1000 caratteri, non superare)\",\n  \"parole_chiave\": \"string (parole chiave, massimo 7 non superare)\"\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        2752,
+        544
+      ],
+      "id": "aa91f1f3-03b7-4d2e-af0b-67efed5e1e17",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "pageId": {
+          "__rl": true,
+          "value": "27f492f9045c8001ad42fb167b572233",
+          "mode": "id"
+        },
+        "title": "={{ $json.output.title }}",
+        "simple": false,
+        "blockUi": {
+          "blockValues": [
+            {
+              "textContent": "={{ $json.output.text }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2928,
+        368
+      ],
+      "id": "64f334a5-a336-446b-b1bb-ff1a0b51fa88",
+      "name": "Create a page1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        3440,
+        368
+      ],
+      "id": "9aba4cdb-c9ae-4401-b73f-53ef2a3c67f8",
+      "name": "Wait1",
+      "webhookId": "e392b45c-cc17-4850-8750-30120bf94f4c"
+    },
+    {
+      "parameters": {
+        "content": "Aggiungi una colonna al foglio Google, per ogni argomento descrive anche la tipologia di contenuto da generare (post instagram, mail, pagina di notion, etc etc). Il contenuto generato dovrà attenersi a questa tipologia e dovrà essere pubblicato su Notion (una pagina per argomento). Fai in modo di generare anche delle parole chiave, queste devono essere scritte in una apposita colonna sul foglio Google iniziale, ognuno correttamente sulla riga dell’argomento per cui sono stati generati.\n",
+        "height": 288,
+        "width": 288
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2624,
+        -64
+      ],
+      "typeVersion": 1,
+      "id": "51098a89-9c8c-4fa7-89a5-df0261db3a04",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "grazie allo structured output parser riesco a creare i tre campi di cui ho bisogno: titolo e testo per notion e parole chiave per il foglio excel\n"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2688,
+        688
+      ],
+      "typeVersion": 1,
+      "id": "4b7e2f67-86cb-4f55-958d-399e8ad87ea3",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "content": "aggiorno il foglio excel inserendo le parole chiave create dall'ai e anche una colonna per vedere se il contenuto è stato creato"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3136,
+        208
+      ],
+      "typeVersion": 1,
+      "id": "a326845c-3be0-4687-9f7d-d2cc96ba5726",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        1744,
+        1088
+      ],
+      "id": "cf471b46-8f9e-4da7-bb71-a160fc77418c",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5ec72583-c8c3-4fb2-8c6c-a744a443f2d6",
+              "name": "workflow.name",
+              "value": "={{ $json.workflow.name }}",
+              "type": "string"
+            },
+            {
+              "id": "6004a161-2a31-411f-a01e-30ecf4150dd3",
+              "name": "execution.lastNodeExecuted",
+              "value": "={{ $json.execution.lastNodeExecuted }}",
+              "type": "string"
+            },
+            {
+              "id": "55ab6c2c-18fd-4c43-9d6c-45588554323a",
+              "name": "execution.error.message",
+              "value": "={{ $json.execution.error.message }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1952,
+        1088
+      ],
+      "id": "55f79c1c-b661-46f7-837a-c9e4839ce423",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C09FWDJRA73",
+          "mode": "list",
+          "cachedResultName": "novo-canal"
+        },
+        "text": "=c'è un errore nel worklow  {{ $json.workflow.name }} nel nodo {{ $json.execution.lastNodeExecuted }}",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        2160,
+        1088
+      ],
+      "id": "e25a5919-c641-4911-8aac-996a89f144d7",
+      "name": "Send a message",
+      "webhookId": "75b1db9a-6a5c-40bb-aa45-5d94ba23a9eb"
+    },
+    {
+      "parameters": {
+        "content": "Cerca come gestire gli errori in n8n e configura un flusso che ti notifichi tramite Slack ogni volta che il flusso creato come esercizio va in errore.\n"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1488,
+        944
+      ],
+      "typeVersion": 1,
+      "id": "0133fe07-d0d9-442a-81c0-7c7894043c3b",
+      "name": "Sticky Note10"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Create a page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a page": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Create a page1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a page1": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d7bab499-aca8-467e-bbb2-b1e7efee41f2",
+  "meta": {
+    "instanceId": "db3cba09f0f04dac6b97a374918bb1850c3ad4d3b667481a953b19af78ad05f2"
+  },
+  "id": "WJ0M9n8SheFC033U",
+  "tags": []
+}
