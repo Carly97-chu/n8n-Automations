@@ -1,0 +1,1494 @@
+{
+  "name": "ESERCIZIO COMPLETO 4",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "Modifica quanto fatto per l’extra mile, il riassunto viene inserito all’interno di un Google Doc che viene condiviso al responsabile in azienda.",
+        "height": 208,
+        "width": 358
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -352,
+        368
+      ],
+      "typeVersion": 1,
+      "id": "a72dfdf2-ff8e-45ea-9455-e8b7be4d8bad",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "operation": "createFromText",
+        "content": "={{ $json.output.text }}",
+        "name": "Report",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1mbeAxdBA-Oi9umnvkMr7oy1YE-peWpml",
+          "mode": "list",
+          "cachedResultName": "Alissa",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1mbeAxdBA-Oi9umnvkMr7oy1YE-peWpml"
+        },
+        "options": {
+          "convertToGoogleDocument": true
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        912,
+        672
+      ],
+      "id": "746d8d00-a889-4b64-aff2-e2bce64ad48f",
+      "name": "Create file from text",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "R6wJOT1XlIPvqdTp",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "share",
+        "fileId": {
+          "__rl": true,
+          "value": "1Ib5_9NLBBbOOpGcm8Ks0DrQFH3EjfOLK-xaMeRtGWjs",
+          "mode": "list",
+          "cachedResultName": "Report",
+          "cachedResultUrl": "https://docs.google.com/document/d/1Ib5_9NLBBbOOpGcm8Ks0DrQFH3EjfOLK-xaMeRtGWjs/edit?usp=drivesdk"
+        },
+        "permissionsUi": {
+          "permissionsValues": {
+            "role": "reader",
+            "type": "user",
+            "emailAddress": "emiro.miro@hotmail.it"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1200,
+        672
+      ],
+      "id": "1b34ec49-e926-425f-9127-bd0024ae9863",
+      "name": "Share file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "R6wJOT1XlIPvqdTp",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "vado a prendere i ticket di zendesk eseguiti in giornata",
+        "height": 112,
+        "width": 150
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -128,
+        848
+      ],
+      "typeVersion": 1,
+      "id": "81141647-a6cc-4251-82ec-b546bcc0e1d9",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "creo un google doc con le informazioni del report",
+        "height": 112,
+        "width": 182
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        896,
+        528
+      ],
+      "typeVersion": 1,
+      "id": "043b6fcc-7a15-4626-9753-ba2378987722",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "condivisione del documento con il responsabile\n",
+        "height": 80,
+        "width": 150
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1200,
+        544
+      ],
+      "typeVersion": 1,
+      "id": "d1d47641-92a5-4807-a56f-e22c230c351f",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## EXTRA EXTRA MILE",
+        "height": 784,
+        "width": 1824,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -368,
+        304
+      ],
+      "typeVersion": 1,
+      "id": "1712359d-1c33-4612-bbda-f07606bb2b24",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## ESERCIZIO BASE",
+        "height": 1024,
+        "width": 2560,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -752,
+        -1840
+      ],
+      "typeVersion": 1,
+      "id": "47821100-4786-42bb-be76-737ec18817a1",
+      "name": "Sticky Note16"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 23,
+              "triggerAtMinute": 59
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -96,
+        -304
+      ],
+      "id": "4a31b965-cca6-47d9-8e21-5aa2b0219e0c",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "content": "Extra mile: \nCrea un flusso n8n che è schedulato per una esecuzione giornaliera alle 23.59, il flusso estrae i ticket creati durante il giorno e tramite AI, crea un report testuale (un riassunto generale) per valutare l’andamento. Questo report viene poi inviato tramite mail al responsabile in azienda.\n",
+        "height": 208,
+        "width": 288
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -352,
+        -624
+      ],
+      "typeVersion": 1,
+      "id": "f3f55e7c-46b5-4239-8e3e-54df32f9559f",
+      "name": "Sticky Note17"
+    },
+    {
+      "parameters": {
+        "sendTo": "carlottaemiro@gmail.com",
+        "subject": "Report",
+        "message": "={{ $json.output.text }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1104,
+        -304
+      ],
+      "id": "194b4907-1787-49a7-b321-34e65f0643f9",
+      "name": "Send a message2",
+      "webhookId": "84f69e80-bf2b-4dab-93eb-bfaef7de9872",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "g9K6pjjN5VyQ7RuC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "vado a prendere i ticket di zendesk eseguiti in giornata",
+        "height": 112,
+        "width": 150
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        96,
+        -432
+      ],
+      "typeVersion": 1,
+      "id": "6f7f2a37-78cc-495f-81e6-d50d2a0b179f",
+      "name": "Sticky Note19"
+    },
+    {
+      "parameters": {
+        "content": "Report mandato per email",
+        "height": 80,
+        "width": 160
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1056,
+        -432
+      ],
+      "typeVersion": 1,
+      "id": "ad17abc6-3a7f-4748-8f59-0d7b2c759044",
+      "name": "Sticky Note20"
+    },
+    {
+      "parameters": {
+        "content": "## EXTRA MILE",
+        "height": 880,
+        "width": 1936,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -400,
+        -752
+      ],
+      "typeVersion": 1,
+      "id": "8ea1db62-fb4f-4d77-8972-2863cd533a3a",
+      "name": "Sticky Note21"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "28d49773-2777-4ead-9945-72bdd70fff08",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -144,
+        -1648
+      ],
+      "id": "67315e98-6d69-4929-97aa-3a5adb97c57c",
+      "name": "Webhook",
+      "webhookId": "28d49773-2777-4ead-9945-72bdd70fff08"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "08bc55be-183b-43b0-be7e-ae83cdbe1a33",
+              "name": "nome",
+              "value": "={{ $json.body.data.data.rofvpa3j8v6av28vt28upe69 }}",
+              "type": "string"
+            },
+            {
+              "id": "739b2845-03a8-4904-baa9-2094d5b37df9",
+              "name": "cognome",
+              "value": "={{ $json.body.data.data.ejkq4zpl28b3e5huei4k2hv5 }}",
+              "type": "string"
+            },
+            {
+              "id": "761e8ef5-c990-4b0a-8f0f-8a7bc56280f9",
+              "name": "email",
+              "value": "={{ $json.body.data.data.gne0dhf6rn77f45ifqyxf7zj }}",
+              "type": "string"
+            },
+            {
+              "id": "d7891e74-f859-4080-aef5-1f49c62096d5",
+              "name": "nazionalita'",
+              "value": "={{ $json.body.data.data.ojs34eo22eu0zm2sebjnwmb6 }}",
+              "type": "string"
+            },
+            {
+              "id": "f97431f6-7fdf-494b-8190-d35ceffc130d",
+              "name": "feedback",
+              "value": "={{ $json.body.data.data.y36e079oskb4eoy97ecslxfn }}",
+              "type": "string"
+            },
+            {
+              "id": "edbb3629-f9e1-4c11-8a5d-1293c45a8ada",
+              "name": "budget",
+              "value": "={{ $json.body.data.data.gkg0f7wksvnnhstoluogfgy3 }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        64,
+        -1648
+      ],
+      "id": "d1ec0ec1-9d0f-4d3a-8b9d-6430c766a5ff",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        256,
+        -1440
+      ],
+      "id": "aa8ea894-f50f-436d-9434-901bf333f99a",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "mgdnndiRA4Hx4jOd",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"nome\": \"Carla\",\n  \"cognome\": \"Rossi\",\n  \"nazionalita\": \"Italiana\",\n  \"email\": \"emiro.miro@hotmail.it\",\n  \"budget\": 80000,\n  \"feedback\": \"Il vostro corso è fantastico\",\n  \"valutazione\": \"Buono\",\n  \"motivazione\": \"Il budget è molto alto e il feedback è estremamente positivo, quindi il contatto è considerato buono.\"\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        416,
+        -1424
+      ],
+      "id": "f4d7a300-470b-445e-b5cb-b2355066a0ce",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.output.valutazione }}",
+                    "rightValue": "Buono",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "0d56d38e-0327-4330-967f-29219b2baa35"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "37bb6c3d-5c8c-4538-9b6f-ac6abc6bb804",
+                    "leftValue": "={{ $json.output.valutazione }}",
+                    "rightValue": "Medio",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "ddc3f7ff-6bb6-4750-89a8-d6a611f0d6c8",
+                    "leftValue": "={{ $json.output.valutazione }}",
+                    "rightValue": "Scarso",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        624,
+        -1648
+      ],
+      "id": "2ddcf73d-4193-4c11-985f-8aead340b135",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "content": "Crea una survey su FormBricks per registrare contatti (Nome Cognome, Email, Nazione, Disponibilità di budget, Perchè è interessato al tuo business aziendale), un flusso n8n cattura le risposte, tramite AI analizziamo il contatto e ne valutiamo la bontà. Se il contatto risulta poco interessante, invia una mail di cortesia, se il contatto è interessante invia una mail più spinta per proporre un follow up e a risposta ricevuta crea un ticket in Zendesk e ti avvisa su Slack.\n",
+        "height": 256,
+        "width": 320
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -672,
+        -1744
+      ],
+      "typeVersion": 1,
+      "id": "4b2fa5cd-5126-4473-aaad-ef7b927ed876",
+      "name": "Sticky Note12"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.output.to }}",
+        "subject": "={{ $json.output.subject }}",
+        "message": "={{ $json.output.body }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1392,
+        -1776
+      ],
+      "id": "6e99c3ce-fab7-435d-9c1a-b9c9edc373f1",
+      "name": "Send a message",
+      "webhookId": "405c3031-e126-4e68-ac8d-f30dd8a74f2a",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "g9K6pjjN5VyQ7RuC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.output.to }}",
+        "subject": "={{ $json.output.subject }}",
+        "message": "={{ $json.output.body }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1264,
+        -1200
+      ],
+      "id": "26c12f06-dedb-4b92-b585-f7de307e79f2",
+      "name": "Send a message1",
+      "webhookId": "0ccfd73d-6903-47e9-a5d7-62bfd1b3bbab",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "g9K6pjjN5VyQ7RuC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {}
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -384,
+        -1136
+      ],
+      "id": "0ceaf8dc-45a8-44a1-98f6-920d80d9268a",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "g9K6pjjN5VyQ7RuC",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "=- Nome{{ $json.nome }}  - Cognome{{ $json.cognome }} - Nazionalita {{ $json['nazionalita\\''] }}- Email{{ $json.email }} - Budget{{ $json.budget }} (numero in euro)- Feedback (testo libero){{ $json.feedback }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.zendesk",
+      "typeVersion": 1,
+      "position": [
+        144,
+        -1152
+      ],
+      "id": "3c771d44-adb7-4c83-9e92-d57d65291cd1",
+      "name": "Create a ticket",
+      "credentials": {
+        "zendeskApi": {
+          "id": "ooaHGOe1tXoz7cJa",
+          "name": "Zendesk account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "47a92d94-92dc-4566-acf3-32a29f90d28c",
+              "leftValue": "={{ $json.snippet }}",
+              "rightValue": "si",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "1010af09-e705-464d-82d2-26a7e745d395",
+              "leftValue": "={{ $json.Subject }}",
+              "rightValue": "Follow-up sul nostro corso",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -208,
+        -1136
+      ],
+      "id": "fdc62359-bb97-4b71-a7ba-5efcbc2ba4c1",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        912,
+        -1584
+      ],
+      "id": "308d0453-a215-44e2-ad3e-f44c0bf406c2",
+      "name": "Google Gemini Chat Model3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "mgdnndiRA4Hx4jOd",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"to\": \"<Email del contatto>\",\n  \"subject\": \"<Oggetto della mail>\",\n  \"body\": \"<Testo completo della mail di follow-up>\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1216,
+        -1568
+      ],
+      "id": "472b81f0-99e9-4661-bafe-50692143a794",
+      "name": "Structured Output Parser3"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        784,
+        -992
+      ],
+      "id": "de95ad84-8907-4666-9a36-1677ab030315",
+      "name": "Google Gemini Chat Model4",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "mgdnndiRA4Hx4jOd",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"to\": \"<Email del contatto>\",\n  \"subject\": \"<Oggetto della mail>\",\n  \"body\": \"<Testo completo della mail di follow-up>\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1088,
+        -992
+      ],
+      "id": "d3b6ec04-7104-44d4-b3b0-b7920ccdaac2",
+      "name": "Structured Output Parser4"
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C09FWDJRA73",
+          "mode": "list",
+          "cachedResultName": "novo-canal"
+        },
+        "text": "=Nuovo ticket creato con il seguente:\n- Nome{{ $json.nome }}  - Cognome{{ $json.cognome }} - Nazionalita {{ $json['nazionalita\\''] }}- Email{{ $json.email }} - Budget{{ $json.budget }} (numero in euro)- Feedback (testo libero){{ $json.feedback }}",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        304,
+        -1152
+      ],
+      "id": "36289571-155f-4515-a7e9-43ecca820b53",
+      "name": "Send a message3",
+      "webhookId": "ac0a8094-725e-4ae2-a5a6-f42420cc08a0",
+      "credentials": {
+        "slackApi": {
+          "id": "hWDsnJYpgm3fh85n",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "options": {
+          "query": "=created {{$now.format('yyyy-MM-dd')}}"
+        }
+      },
+      "type": "n8n-nodes-base.zendesk",
+      "typeVersion": 1,
+      "position": [
+        128,
+        -304
+      ],
+      "id": "621d982d-ad48-4fd4-9e9f-111d9c488061",
+      "name": "Get many tickets",
+      "credentials": {
+        "zendeskApi": {
+          "id": "ooaHGOe1tXoz7cJa",
+          "name": "Zendesk account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b3127812-49d3-4f02-a165-8ca624f8be7c",
+              "name": "description",
+              "value": "={{ $json.description }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        336,
+        -304
+      ],
+      "id": "209eb4da-a4ed-4f35-9367-4e7360b7d75d",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "aggregation": "append",
+              "field": "description"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.summarize",
+      "typeVersion": 1.1,
+      "position": [
+        544,
+        -304
+      ],
+      "id": "84a76e3c-118d-4ae1-8c2a-4d5009495460",
+      "name": "Summarize"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainSummarization",
+      "typeVersion": 2.1,
+      "position": [
+        768,
+        -304
+      ],
+      "id": "de47cbdd-4722-4e11-9176-f8833cba5d20",
+      "name": "Summarization Chain"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        752,
+        -96
+      ],
+      "id": "c136081d-caab-46ce-8073-7bd3124682cc",
+      "name": "Google Gemini Chat Model5",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "mgdnndiRA4Hx4jOd",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "unisco tutte le description",
+        "height": 80,
+        "width": 150
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        512,
+        -400
+      ],
+      "typeVersion": 1,
+      "id": "df9cf353-8b0b-4c68-873a-2ecd4a0e3819",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 23,
+              "triggerAtMinute": 59
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -320,
+        672
+      ],
+      "id": "73468885-6425-483e-ace2-f277f7fa748d",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "options": {
+          "query": "=created {{$now.format('yyyy-MM-dd')}}"
+        }
+      },
+      "type": "n8n-nodes-base.zendesk",
+      "typeVersion": 1,
+      "position": [
+        -96,
+        672
+      ],
+      "id": "d019338e-0f5e-4a6a-951f-dd4fd0687db5",
+      "name": "Get many tickets1",
+      "credentials": {
+        "zendeskApi": {
+          "id": "ooaHGOe1tXoz7cJa",
+          "name": "Zendesk account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b3127812-49d3-4f02-a165-8ca624f8be7c",
+              "name": "description",
+              "value": "={{ $json.description }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        112,
+        672
+      ],
+      "id": "a2eca5b5-9f4e-4e4e-b913-087c82b7b9ee",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "aggregation": "append",
+              "field": "description"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.summarize",
+      "typeVersion": 1.1,
+      "position": [
+        320,
+        672
+      ],
+      "id": "2ecc60bb-e61a-44d9-8d5f-0bfc8abbe80a",
+      "name": "Summarize1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainSummarization",
+      "typeVersion": 2.1,
+      "position": [
+        560,
+        672
+      ],
+      "id": "83f59daa-f89e-43c7-bdd5-3bebb8df5dd9",
+      "name": "Summarization Chain1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        496,
+        864
+      ],
+      "id": "9906e0f1-1770-43cb-af45-7476fd376202",
+      "name": "Google Gemini Chat Model6",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "mgdnndiRA4Hx4jOd",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Sei un assistente che scrive email di follow-up personalizzate per clienti potenzialmente interessati a un prodotto o servizio.\n\nRiceverai le seguenti informazioni su un contatto:\n- Nome  {{ $json.output.nome }}\n- Cognome{{ $json.output.cognome }}\n- Nazionalita'{{ $json.output.nazionalita }}\n- Email{{ $json.output.email }}\n- Budget (numero in euro){{ $json.output.budget }}\n- Feedback (testo libero){{ $json.output.feedback }}\n\nIstruzioni:\n1. Scrivi una email breve e professionale che test i livelli di interesse del cliente.\n2. Personalizza la mail usando il{{ $json.output.nome }}e altri dettagli rilevanti del contatto.\n3. Mantieni un tono cordiale, professionale e persuasivo.\n4. Evita di ripetere esattamente le informazioni già presenti nel feedback, ma puoi farvi riferimento.\n5. La mail deve invitare gentilmente il cliente a rispondere o a mostrare interesse (es. fissare un appuntamento, confermare interesse, chiedere informazioni aggiuntive).\n\nRestituisci il risultato in **JSON strutturato** con questo formato:\n\n```json\n{\n  \"to\": \"<Email del contatto>\",\n  \"subject\": \"<Oggetto della mail>\",\n  \"body\": \"<Testo completo della mail di follow-up>\"\n}",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        1040,
+        -1776
+      ],
+      "id": "1b85a177-1a2c-4fff-9f29-cc0f57a436f6",
+      "name": "email follow up"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Genera un'email di cortesia professionale e cordiale indirizzata a un cliente. Usa i seguenti dati:  \n\n- Nome: {{ $json.output.nome }}\n- Cognome: {{ $json.output.cognome }}\n- Email: {{ $json.output.email }}\n- Feedback: {{ $json.output.feedback }}\n- Budget:{{ $json.output.budget }}\n- Nazionalità: {{ $json.output.nazionalita }}\n\nL'email deve:  \n1. Ringraziare il cliente per il suo feedback.  \n2. Mostrare comprensione rispetto al feedback negativo e al budget limitato.  \n3. Essere breve, chiara e professionale, con un tono cordiale, rispettoso e empatico.  \n4. Non includere inviti a ulteriori contatti o proposte commerciali.  \n\nPersonalizza l'email usando il nome del cliente e riferendoti al suo feedback e al budget.\n",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        912,
+        -1200
+      ],
+      "id": "65e7baa9-d6ac-448e-ae87-c4717e0f73e1",
+      "name": "email di cortesia"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Sei un assistente che valuta la bontà di un contatto commerciale.\n\nRiceverai le seguenti informazioni su un contatto:\n- Nome{{ $json.nome }}\n- Cognome{{ $json.cognome }}\n- Nazionalita'{{ $json['nazionalita\\''] }}\n- Email{{ $json.email }}\n- Budget (numero in euro){{ $json.budget }}\n- Feedback (testo libero){{ $json.feedback }}\n\nIstruzioni:\n1. Considera \"Buono\" se il budget ({{ $json.budget }})è maggiore di 1000 e il feedback ({{ $json.feedback }} )è positivo.\n2. Considera \"Medio\" se solo una delle due condizioni è vera.\n3. Considera \"Scarso\" se nessuna condizione è vera.\n",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        272,
+        -1648
+      ],
+      "id": "d3c8b8df-84dd-49ba-a586-83668dde586b",
+      "name": "Bonta' dei lead"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "08bc55be-183b-43b0-be7e-ae83cdbe1a33",
+              "name": "nome",
+              "value": "={{ $json.body.data.data.rofvpa3j8v6av28vt28upe69 }}",
+              "type": "string"
+            },
+            {
+              "id": "739b2845-03a8-4904-baa9-2094d5b37df9",
+              "name": "cognome",
+              "value": "={{ $json.body.data.data.ejkq4zpl28b3e5huei4k2hv5 }}",
+              "type": "string"
+            },
+            {
+              "id": "761e8ef5-c990-4b0a-8f0f-8a7bc56280f9",
+              "name": "email",
+              "value": "={{ $json.body.data.data.gne0dhf6rn77f45ifqyxf7zj }}",
+              "type": "string"
+            },
+            {
+              "id": "d7891e74-f859-4080-aef5-1f49c62096d5",
+              "name": "nazionalita'",
+              "value": "={{ $json.body.data.data.ojs34eo22eu0zm2sebjnwmb6 }}",
+              "type": "string"
+            },
+            {
+              "id": "f97431f6-7fdf-494b-8190-d35ceffc130d",
+              "name": "feedback",
+              "value": "={{ $json.body.data.data.y36e079oskb4eoy97ecslxfn }}",
+              "type": "string"
+            },
+            {
+              "id": "edbb3629-f9e1-4c11-8a5d-1293c45a8ada",
+              "name": "budget",
+              "value": "={{ $json.body.data.data.gkg0f7wksvnnhstoluogfgy3 }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        0,
+        -1152
+      ],
+      "id": "d136bb79-c822-454a-ba6d-fc0170694739",
+      "name": "recupero i dati"
+    }
+  ],
+  "pinData": {
+    "Schedule Trigger": [
+      {
+        "json": {
+          "timestamp": "2025-11-01T14:05:43.743+00:00",
+          "Readable date": "November 1st 2025, 2:05:43 pm",
+          "Readable time": "2:05:43 pm",
+          "Day of week": "Saturday",
+          "Year": "2025",
+          "Month": "November",
+          "Day of month": "01",
+          "Hour": "14",
+          "Minute": "05",
+          "Second": "43",
+          "Timezone": "Europe/Lisbon (UTC+00:00)"
+        }
+      }
+    ],
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "caiocai.app.n8n.cloud",
+            "user-agent": "node",
+            "content-length": "1086",
+            "accept": "*/*",
+            "accept-encoding": "gzip, br",
+            "accept-language": "*",
+            "baggage": "sentry-environment=production,sentry-release=4.1.1,sentry-public_key=0b26e7660971b3029560ebc0d990e316,sentry-trace_id=cc9077e62da36c9d6191bb01ffa0fb67,sentry-org_id=4510301003317248,sentry-sampled=false,sentry-sample_rand=0.6263062052395669,sentry-sample_rate=0",
+            "cdn-loop": "cloudflare; loops=1; subreqs=1",
+            "cf-connecting-ip": "63.180.114.17",
+            "cf-ew-via": "15",
+            "cf-ipcountry": "DE",
+            "cf-ray": "99aebb86e5ec36dc-FRA",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "cf-worker": "n8n.cloud",
+            "content-type": "application/json",
+            "sec-fetch-mode": "cors",
+            "sentry-trace": "cc9077e62da36c9d6191bb01ffa0fb67-2a11c861982b6cbf-0",
+            "x-forwarded-for": "63.180.114.17, 162.158.110.230",
+            "x-forwarded-host": "caiocai.app.n8n.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "traefik-prod-users-gwc-44-68df68bcf-nbsj5",
+            "x-is-trusted": "yes",
+            "x-real-ip": "63.180.114.17"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "webhookId": "cmhp1dqkr2nrvad01xfeoy114",
+            "event": "responseFinished",
+            "data": {
+              "id": "cmhp5v5c80gu1ad01baypwvj0",
+              "createdAt": "2025-11-07T18:00:15.561Z",
+              "updatedAt": "2025-11-07T18:00:44.279Z",
+              "surveyId": "cmhozusgk0hshad01s9cgu5tv",
+              "displayId": "cmhp5v17j0gqfad012uvcpv3z",
+              "contact": null,
+              "contactAttributes": null,
+              "finished": true,
+              "endingId": "rqxg5lcf34nh4o2jpbtuxkqs",
+              "data": {
+                "ejkq4zpl28b3e5huei4k2hv5": "Frante",
+                "gkg0f7wksvnnhstoluogfgy3": "0",
+                "gne0dhf6rn77f45ifqyxf7zj": "agagg@shsh.it",
+                "ojs34eo22eu0zm2sebjnwmb6": "italiana",
+                "rofvpa3j8v6av28vt28upe69": "Barbara",
+                "y36e079oskb4eoy97ecslxfn": "non sono interessata"
+              },
+              "variables": {},
+              "ttc": {
+                "_total": 28379.5,
+                "ejkq4zpl28b3e5huei4k2hv5": 5097.59999999404,
+                "gkg0f7wksvnnhstoluogfgy3": 1873.600000023842,
+                "gne0dhf6rn77f45ifqyxf7zj": 5961.199999988079,
+                "ojs34eo22eu0zm2sebjnwmb6": 3330.5,
+                "rofvpa3j8v6av28vt28upe69": 5323.90000000596,
+                "y36e079oskb4eoy97ecslxfn": 6792.699999988079
+              },
+              "tags": [],
+              "meta": {
+                "url": "https://app.formbricks.com/s/cmhozusgk0hshad01s9cgu5tv",
+                "userAgent": {
+                  "browser": "Chrome",
+                  "os": "Windows",
+                  "device": "desktop"
+                }
+              },
+              "singleUseId": null,
+              "language": null
+            }
+          },
+          "webhookUrl": "https://caiocai.app.n8n.cloud/webhook-test/28d49773-2777-4ead-9945-72bdd70fff08",
+          "executionMode": "test"
+        }
+      }
+    ],
+    "Schedule Trigger1": [
+      {
+        "json": {
+          "timestamp": "2025-11-01T14:05:43.743+00:00",
+          "Readable date": "November 1st 2025, 2:05:43 pm",
+          "Readable time": "2:05:43 pm",
+          "Day of week": "Saturday",
+          "Year": "2025",
+          "Month": "November",
+          "Day of month": "01",
+          "Hour": "14",
+          "Minute": "05",
+          "Second": "43",
+          "Timezone": "Europe/Lisbon (UTC+00:00)"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Create file from text": {
+      "main": [
+        [
+          {
+            "node": "Share file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get many tickets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Bonta' dei lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Bonta' dei lead",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Bonta' dei lead",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "email follow up",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "email di cortesia",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "email di cortesia",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a ticket": {
+      "main": [
+        [
+          {
+            "node": "Send a message3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "recupero i dati",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "email follow up",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser3": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "email follow up",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "email di cortesia",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser4": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "email di cortesia",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many tickets": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Summarize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize": {
+      "main": [
+        [
+          {
+            "node": "Summarization Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Summarization Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarization Chain": {
+      "main": [
+        [
+          {
+            "node": "Send a message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Get many tickets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many tickets1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Summarize1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model6": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Summarization Chain1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarization Chain1": {
+      "main": [
+        [
+          {
+            "node": "Create file from text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize1": {
+      "main": [
+        [
+          {
+            "node": "Summarization Chain1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "email follow up": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "email di cortesia": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Bonta' dei lead": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "recupero i dati": {
+      "main": [
+        [
+          {
+            "node": "Create a ticket",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1ace59c8-8e00-44f9-910d-511150bbd458",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "03066e9e74f2e9c75beb759ba97e9fd79865dcf0336d7c56c917de1c593280ce"
+  },
+  "id": "vwe7dNRgn0xVYJsz",
+  "tags": []
+}
