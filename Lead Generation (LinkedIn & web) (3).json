@@ -1,0 +1,1012 @@
+{
+  "name": "Esercizio 3",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "https://www.googleapis.com/customsearch/v1",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "cx",
+              "value": "d61630e5ce5fd47e0"
+            },
+            {
+              "name": "q",
+              "value": "={{ $json.Keyword }}"
+            }
+          ]
+        },
+        "options": {
+          "pagination": {
+            "pagination": {
+              "parameters": {
+                "parameters": [
+                  {
+                    "name": "start",
+                    "value": "={{$response.body.queries.nextPage[0].startIndex }}"
+                  }
+                ]
+              },
+              "limitPagesFetched": true,
+              "maxRequests": 3
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        0,
+        224
+      ],
+      "id": "10956527-9d43-48cf-92a3-83297cb1935a",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "content": "\nEsercizio:\nCrea un flusso in n8n, che, giornalmente, partendo da una keyword statica, esegue una ricerca mirata su linkedin sfruttando le API di Google Search cercando persone che sono riconducibili alla keyword. I dati vengono processati dall’AI che li formatta e li carica in una tabella di AirTable.",
+        "height": 240
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -496,
+        -144
+      ],
+      "typeVersion": 1,
+      "id": "99c0f876-11e6-4ec8-ae93-c0f40dbc4bd8",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -464,
+        256
+      ],
+      "id": "12c123f9-0cdd-4ac6-9194-601ac0aeceaf",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Sei un assistente AI specializzato in ricercare questa chiave:{{ $('Edit Fields').item.json.Keyword }}\nIl tuo compito è pulire e strutturare i dati ricevuti in input, estraendo per ciascun recruiter le seguenti informazioni:\n\n1. Nome\n2. Cognome\n3. URL LinkedIn\n4. Descrizione\n\nLe informazioni devono essere estratte solo se chiare; se un campo non è disponibile, lascia vuoto. \nRispondi in formato JSON valido, con una lista di oggetti, ciascuno con le chiavi: \"nome\", \"cognome\", \"linkedin\".\n\nEsempio di output:\n[\n  {\n    \"nome\": \"Anna\",\n    \"cognome\": \"Bianchi\",\n    \"linkedin\": \"\",\n    \"descrizione\": \"senior data analyst recruiter\"\n  }\n]\n\n\nDati di input:\n{{ $json.link }}{{ $json.title }}{{ $json.snippet }}",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        624,
+        240
+      ],
+      "id": "9a70ef21-5940-474f-ba95-174a368592c9",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        608,
+        416
+      ],
+      "id": "9df0f464-d29b-4f50-9f55-378e80d98f34",
+      "name": "Google Gemini Chat Model"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "18fb4245-2b1f-4c5f-bd09-debeae909345",
+              "name": "results",
+              "value": "={{ $json.items.map (i=>({title: i.title, \"snippet\": i.snippet, \"link\": i.link})) }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        240,
+        224
+      ],
+      "id": "ac3e50e6-6ce2-4c75-9aa0-fb1237568004",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "base": {
+          "__rl": true,
+          "value": "appp4nkAtbyXH2vMP",
+          "mode": "list",
+          "cachedResultName": "Esercizio 3 n8n",
+          "cachedResultUrl": "https://airtable.com/appp4nkAtbyXH2vMP"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbldYQbqKJTRaOFUj",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/appp4nkAtbyXH2vMP/tbldYQbqKJTRaOFUj"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Nome": "={{ $json.output.nome }}",
+            "Cognome": "={{ $json.output.cognome }}",
+            "linkedin": "={{ $json.output.linkedin }}",
+            "Descrizione": "={{ $json.output.descrizione }}"
+          },
+          "matchingColumns": [
+            "linkedin"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Cognome",
+              "displayName": "Cognome",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "linkedin",
+              "displayName": "linkedin",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Descrizione",
+              "displayName": "Descrizione",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "punteggio pertinenza",
+              "displayName": "punteggio pertinenza",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1024,
+        240
+      ],
+      "id": "11f6785f-34fa-4295-a2ae-c5cf941516b3",
+      "name": "Create or update a record"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": " {\n    \"nome\": \"Anna\",\n    \"cognome\": \"Bianchi\",\n    \"linkedin\": \"\",\n    \"descrizione\": \"senior data analyst recruiter\"\n  }"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        800,
+        448
+      ],
+      "id": "5d584376-136b-4a1e-8156-a0cda45a0354",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7c6250c9-c0b7-436f-9f93-20fe3a076f95",
+              "name": "Keyword",
+              "value": "data analyst recruiter site:linkedin.com/in",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -224,
+        48
+      ],
+      "id": "9db2acde-3816-40a9-bd3c-e2733a95e3f0",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "results",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        416,
+        240
+      ],
+      "id": "363b8ed0-ef39-4a87-bbad-e77ffa91ed06",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "fields"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1280,
+        240
+      ],
+      "id": "4caaf2c7-2838-4fcd-a00c-eae8ff866a86",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1504,
+        80
+      ],
+      "id": "5a534feb-b73a-449a-8ac1-fa48d34b66e6",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Sei un assistente AI che valuta la pertinenza di profili professionali rispetto alla keyword fornita.\n\nLa keyword è: {{ $json.Keyword }}\n\nI profili da valutare sono: {{ JSON.stringify($json.fields) }}\n\nIl tuo compito:\n- Analizza ciascun profilo in base alla keyword.\n- Assegna un punteggio di pertinenza numerico (da 0 a 5) seguendo questa scala precisa:\n\n0 → Nessuna relazione con “data analyst” o “recruiter”  \n1 → Molto poco pertinente (recruiter generico, nessuna menzione di dati)  \n2 → Parzialmente pertinente (recruiter IT o tech, ma non specificamente data)  \n3 → Mediamente pertinente (alcuni riferimenti a data o analytics)  \n4 → Molto pertinente (recruiter in ambito dati o analisi)  \n5 → Perfettamente pertinente (ruolo chiaramente “data analyst recruiter” o equivalente)\n\n---\n\n### ⚠️ ISTRUZIONI DI FORMATO — OBBLIGATORIE ⚠️\nDevi **rispondere esclusivamente** con un JSON valido, conforme a questo schema:\n\n[\n  {\n    \"nome\": \"string\",\n    \"cognome\": \"string\",\n    \"punteggio_pertinenza\": numero_intero_tra_0_e_5\n  }\n]\n\n- Non includere testo, spiegazioni, commenti o altre parole fuori dal JSON.  \n- Non aggiungere virgolette extra, spazi o testo prima/dopo l’array.  \n- Se non ci sono profili o dati validi, restituisci semplicemente un array vuoto: `[]`.  \n- Il JSON deve essere **valido** e **parsabile**.\n\n---\n\n### Esempio corretto di output:\n[\n  {\n    \"nome\": \"Anna\",\n    \"cognome\": \"Bianchi\",\n    \"punteggio_pertinenza\": 5\n  },\n  {\n    \"nome\": \"Marco\",\n    \"cognome\": \"Verdi\",\n    \"punteggio_pertinenza\": 3\n  }\n]\n",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        1728,
+        80
+      ],
+      "id": "ecbea033-4c3b-46ac-b2b6-7fbf2959ed8e",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1680,
+        288
+      ],
+      "id": "cc54eb67-c839-4b01-ac64-7c74b79e330e",
+      "name": "Google Gemini Chat Model1"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[\n  {\n    \"nome\": \"string\",\n    \"cognome\": \"string\",\n    \"punteggio_pertinenza\": \"number\"\n  }\n]"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        2112,
+        320
+      ],
+      "id": "1d294212-214b-48a4-9809-12cb0302cd55",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Questo nodo elabora il testo restituito dall'AI Agent\n// e lo trasforma in oggetti separati (uno per profilo)\nconst text = $json.output || $json.text || ''; // Adatta il campo in base al nodo AI\nlet result = [];\n\ntry {\n  // Rimuove eventuale testo extra e tenta il parse\n  const jsonMatch = text.match(/\\[.*\\]/s);\n  if (jsonMatch) {\n    result = JSON.parse(jsonMatch[0]);\n  }\n} catch (error) {\n  console.log('Errore nel parsing JSON:', error.message);\n}\n\nreturn result.map(item => ({\n  json: {\n    nome: item.nome || '',\n    cognome: item.cognome || '',\n    punteggio_pertinenza: item.punteggio_pertinenza ?? null,\n  }\n}));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2064,
+        64
+      ],
+      "id": "ede727d1-42a7-450d-804b-f43064cee4ff",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "base": {
+          "__rl": true,
+          "value": "appp4nkAtbyXH2vMP",
+          "mode": "list",
+          "cachedResultName": "Esercizio 3 n8n",
+          "cachedResultUrl": "https://airtable.com/appp4nkAtbyXH2vMP"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbldYQbqKJTRaOFUj",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/appp4nkAtbyXH2vMP/tbldYQbqKJTRaOFUj"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Cognome": "={{ $json.cognome }}",
+            "Nome": "={{ $json.nome }}",
+            "punteggio pertinenza": "={{ $json.punteggio_pertinenza }}"
+          },
+          "matchingColumns": [
+            "Nome",
+            "Cognome"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Cognome",
+              "displayName": "Cognome",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "linkedin",
+              "displayName": "linkedin",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Descrizione",
+              "displayName": "Descrizione",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "punteggio pertinenza",
+              "displayName": "punteggio pertinenza",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        2288,
+        64
+      ],
+      "id": "c587d230-757b-492f-909d-65d2f6f13c2d",
+      "name": "Create or update a record1"
+    },
+    {
+      "parameters": {
+        "content": "Extra mile: \nModifica il flusso precedente in modo tale che un nodo AI valuti il profilo con uno score tra 0 e 5 valuti quanto il profilo estratto è vicino (o distante) dalla chiave di ricerca usata per la ricerca Google. Questo valore generato viene poi inserito in una apposita colonna del lead a database.",
+        "height": 176,
+        "width": 256
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1264,
+        -128
+      ],
+      "typeVersion": 1,
+      "id": "79e98bfc-788c-4135-bc16-717c0ca01fb0",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 1024,
+        "width": 1744,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -544,
+        -160
+      ],
+      "typeVersion": 1,
+      "id": "e7e3fb6b-900f-4f49-a222-249d6458a99a",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 1024,
+        "width": 1744,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1232,
+        -160
+      ],
+      "typeVersion": 1,
+      "id": "f876dd24-1057-424e-a0fe-7ca7d4199179",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "operation": "getOutput",
+        "agentId": "415967165976826",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.phantombuster",
+      "typeVersion": 1,
+      "position": [
+        720,
+        1360
+      ],
+      "id": "c8b05577-2962-4b08-9c9d-47a434651c75",
+      "name": "Get the output of an agent"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        528,
+        1360
+      ],
+      "id": "f538db34-72d9-4de5-bf8d-3cf8338ff0c1",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Sei un assistente AI specializzato in Data analyst e nella ricerca di recruiter in questo ambito. \nIl tuo compito è pulire e strutturare i dati ricevuti in input, estraendo per ciascun recruiter le seguenti informazioni:\n\n1. Nome\n2. Cognome\n3. URL LinkedIn\n4. Descrizione\n\nLe informazioni devono essere estratte solo se chiare; se un campo non è disponibile, lascia vuoto. \nRispondi in formato JSON valido, con una lista di oggetti, ciascuno con le chiavi: \"nome\", \"cognome\", \"linkedin\".\n\nEsempio di output:\n[\n  {\n    \"nome\": \"Anna\",\n    \"cognome\": \"Bianchi\",\n    \"linkedin\": \"\",\n    \"descrizione\": \"senior data analyst recruiter\"\n  }\n]\n\n\nDati di input:\n{{ $json.name }}{{ $json.Linkedin }}{{ $json.description }}",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        1184,
+        1360
+      ],
+      "id": "da54501e-140f-47cc-9334-024d64057018",
+      "name": "AI Agent2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1088,
+        1568
+      ],
+      "id": "08e2a7f5-a8e6-49b7-8d89-acec03afac60",
+      "name": "Google Gemini Chat Model2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "60747de5-e6ad-402e-a939-59b9b514b6a0",
+              "name": "name",
+              "value": "={{ $json.fullName }}",
+              "type": "string"
+            },
+            {
+              "id": "7d82f078-0acf-44fa-ac6b-65f396d64756",
+              "name": "description",
+              "value": "={{ $json.headline }}",
+              "type": "string"
+            },
+            {
+              "id": "8f05ed1d-8980-469f-8537-ea7557030b84",
+              "name": "Linkedin",
+              "value": "={{ $json.profileUrl }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        960,
+        1360
+      ],
+      "id": "98683933-f952-4388-b6f7-ae9821ee2b3e",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "base": {
+          "__rl": true,
+          "value": "app7ELCcs8TYv5dIQ",
+          "mode": "list",
+          "cachedResultName": "Esercizio 3 n8n extraextra",
+          "cachedResultUrl": "https://airtable.com/app7ELCcs8TYv5dIQ"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbldYQbqKJTRaOFUj",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/app7ELCcs8TYv5dIQ/tbldYQbqKJTRaOFUj"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Nome": "={{ $json.output.nome }}",
+            "Cognome": "={{ $json.output.cognome }}",
+            "linkedin": "={{ $json.output.linkedin }}",
+            "Descrizione": "={{ $json.output.descrizione }}"
+          },
+          "matchingColumns": [
+            "Nome"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Cognome",
+              "displayName": "Cognome",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "linkedin",
+              "displayName": "linkedin",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Descrizione",
+              "displayName": "Descrizione",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1552,
+        1360
+      ],
+      "id": "730e3603-3f8c-4362-aad7-a962a922a610",
+      "name": "Create or update a record2"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": " {\n    \"nome\": \"Anna\",\n    \"cognome\": \"Bianchi\",\n    \"linkedin\": \"\",\n    \"descrizione\": \"senior data analyst recruiter\"\n  }"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1360,
+        1584
+      ],
+      "id": "91cfdcc1-3f6b-4384-b41c-f0056909c21c",
+      "name": "Structured Output Parser2"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 1024,
+        "width": 1744,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        320,
+        976
+      ],
+      "typeVersion": 1,
+      "id": "3fc3bcdc-3ab1-4409-b30d-5e57a87a9ef7",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "Extra extra mile: \nSostituisci nel primo flusso un servizio esterno come PhantomBuster alla ricerca Google. Come sono i risultati?"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        384,
+        1008
+      ],
+      "typeVersion": 1,
+      "id": "19afab0a-48b2-4ea2-ac67-fcafbad02261",
+      "name": "Sticky Note5"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Create or update a record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create or update a record": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Create or update a record1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get the output of an agent": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Get the output of an agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent2": {
+      "main": [
+        [
+          {
+            "node": "Create or update a record2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser2": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c719fea2-6e3c-40e9-a7ed-f7de4f1735c1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "03066e9e74f2e9c75beb759ba97e9fd79865dcf0336d7c56c917de1c593280ce"
+  },
+  "id": "HUKHksw3mBTwKEU0",
+  "tags": []
+}
